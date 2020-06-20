@@ -1,8 +1,7 @@
 `define AY_ENABLE
-`define AY_TURBOSOUND_MODE
 `define SID_ENABLE
 `define DAC_ENABLE
-`define BEEPER_ENABLE
+//`define BEEPER_ENABLE
 
 module top(
 	input n_rst,
@@ -30,12 +29,12 @@ wire ioreq = n_iorq == 0 && n_m1 == 1'b1;
 /* SID */
 `ifdef SID_ENABLE
 wire port_cf = a == 8'hCF;
-always @(posedge clk)
+always @(negedge clk)
 	sid_cs <= ioreq && port_cf;
 
 reg [1:0] sid_clk0;
 assign sid_clk = sid_clk0[1];
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst)
 		sid_clk0 <= 0;
 	else
@@ -52,29 +51,25 @@ always @* sid_cs <= 0;
 
 /* AY */
 `ifdef AY_ENABLE
-wire port_fffd = a15 == 1'b1 && a[1] == 0 ;
-wire port_bffd = a15 == 1'b1 && a14 == 1'b1 && a[1] == 0;
+wire port_bffd = a15 == 1'b1 && a[1] == 0 ;
+wire port_fffd = a15 == 1'b1 && a14 == 1'b1 && a[1] == 0;
 reg ay_sel;
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst) begin
 		ay_bc1 <= 0;
 		ay_bdir <= 0;
-		`ifdef AY_TURBOSOUND_MODE
-			ay_sel <= 0;
-		`else
-			ay_sel <= 1'b1;
-		`endif
+		ay_sel <= 1'b1;
 	end
 	else begin
-		ay_bc1  <= ioreq && port_bffd;
-		ay_bdir <= ioreq && port_fffd && n_wr == 1'b0;
-		`ifdef AY_TURBOSOUND_MODE
-			if (ioreq && port_fffd && n_wr == 1'b0 && d[7:3] == 5'b11111)
-				ay_sel <= d[2:0] == 3'b001;
-		`endif
+		if (ay_sel) begin
+			ay_bc1  <= ioreq && port_fffd;
+			ay_bdir <= ioreq && port_bffd && n_wr == 1'b0;
+		end
+		if (ioreq && port_fffd && n_wr == 1'b0 && d[7:1] == 7'b1111111)
+			ay_sel <= d[0] == 1'b0;
 	end
 end
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst)
 		ay_clk <= 0;
 	else
@@ -95,7 +90,7 @@ always @* ay_bdir <= 0;
 `ifdef BEEPER_ENABLE
 wire port_fe = a[0] == 0;
 reg beeper, tape_out;
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst) begin
 		beeper <= 1'b0;
 		tape_out <= 1'b0;
@@ -117,17 +112,17 @@ wire tape_out = 0;
 /* COVOX */
 reg [7:0] covox_data;
 wire port_fb = a == 8'hFB;
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst)
 		covox_data <= 0;
-	else if (ioreq && port_fb && n_wr == 0)
+	else if (ioreq && port_fb && n_wr == 1'b0)
 		covox_data <= d;
 end
 
 reg [8:0] dac_acc;
 assign dac = dac_acc[8];
 wire [8:0] dac_acc_next = covox_data + {1'b0, beeper, tape_out, 5'b00000};
-always @(posedge clk or negedge n_rst) begin
+always @(negedge clk or negedge n_rst) begin
 	if (!n_rst)
 		dac_acc <= 0;
 	else
@@ -136,7 +131,7 @@ end
 
 `else /* DAC_ENABLE */
 wire port_fb = 0;
-assign dac <= 1'bz;
+assign dac = 1'bz;
 
 `endif /* DAC_ENABLE */
 
