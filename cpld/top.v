@@ -29,8 +29,12 @@ wire ioreq = n_iorq == 0 && n_m1 == 1'b1;
 /* SID */
 `ifdef SID_ENABLE
 wire port_cf = a == 8'hCF;
-always @(negedge clk)
-	sid_cs <= ioreq && port_cf;
+always @(negedge clk or negedge n_rst) begin
+	if (!n_rst)
+		sid_cs <= 1'b1;
+	else
+		sid_cs <= (ioreq && port_cf)? 1'b0 : 1'b1;
+end
 
 reg [1:0] sid_clk0;
 assign sid_clk = sid_clk0[1];
@@ -44,7 +48,7 @@ end
 `else /* SID_ENABLE */
 wire port_cf = 0;
 always @* sid_clk <= 0;
-always @* sid_cs <= 0;
+always @* sid_cs <= 1'b1;
 	
 `endif /* SID_ENABLE */
 	
