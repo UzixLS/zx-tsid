@@ -55,8 +55,8 @@ always @* sid_cs <= 1'b1;
 
 /* AY */
 `ifdef AY_ENABLE
-wire port_bffd = a15 == 1'b1 && a[1] == 0 ;
-wire port_fffd = a15 == 1'b1 && a14 == 1'b1 && a[1] == 0;
+wire port_bffd = a15 == 1'b1 && a == 8'hFD;
+wire port_fffd = a15 == 1'b1 && a14 == 1'b1 && a == 8'hFD;
 reg ay_sel;
 always @(negedge clk or negedge n_rst) begin
 	if (!n_rst) begin
@@ -65,10 +65,8 @@ always @(negedge clk or negedge n_rst) begin
 		ay_sel <= 1'b1;
 	end
 	else begin
-		if (ay_sel) begin
-			ay_bc1  <= ioreq && port_fffd;
-			ay_bdir <= ioreq && port_bffd && n_wr == 1'b0;
-		end
+		ay_bc1  <= ay_sel && ioreq && port_fffd;
+		ay_bdir <= ay_sel && ioreq && port_bffd && n_wr == 1'b0;
 		if (ioreq && port_fffd && n_wr == 1'b0 && d[7:1] == 7'b1111111)
 			ay_sel <= d[0] == 1'b0;
 	end
