@@ -3,6 +3,7 @@ Sound card for ZX Spectrum edge connector (ZX-BUS). Contains MOS SID, YM2149 (AY
 
 ### Current status
 Work in progress, both pcb and firmware isn't finished yet and may contain serious issues.
+Please note the [errata](pcb/rev.A/ERRATA.txt) for rev.A pcb.
 
 ### SID
 MOS-6581 or MOS-8580 may be installed, but with some cautions. This addon doesn't contain buffers between SID and bus connector, and that may cause SID's damage by ESD if no luck. As I have no real SID, I've checked this addon only with SwinSID.
