@@ -1,6 +1,8 @@
 ## ZX-TSid
 MOS SID sound card for ZX Spectrum edge connector (ZX-BUS).
 
+[![photo](images/revC-side1.small.jpg)](images/revC-side1.jpg?raw=true) [![photo](images/revC-side2.small.jpg)](images/revC-side2.jpg?raw=true)
+
 PCB is compatible with SID 6581 and 8580, but also contains integrated SwinSID emulator.
 
 SID accessible via #xxCF port, where xx - SID's register number.
