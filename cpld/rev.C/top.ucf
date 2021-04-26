@@ -29,6 +29,7 @@ NET "d<7>"  LOC = "p38"  ;
 NET "n_iorq"  LOC = "p50"  ;
 NET "n_iorqge"  LOC = "p52"  ;
 NET "n_rd"  LOC = "p62"  ;
+NET "n_wait" LOC = "p22" ;
 NET "n_wr"  LOC = "p63"  ;
 NET "rst_n"  LOC = "p64"  ;
 NET "sid_a<0>"  LOC = "p8"  ;
