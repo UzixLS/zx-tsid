@@ -7,8 +7,8 @@ module top(
     input n_rd,
     input n_wr,
     input n_iorq,
-    output reg n_iorqge,
-    output reg n_wait,
+    output n_iorqge,
+    output reg n_wait = 1'bz,
 
     input cfg,
 
@@ -16,8 +16,8 @@ module top(
     inout [7:0] sid_d,
     output sid_clk,
     output sid_rst,
-    output reg sid_cs,
-    output reg sid_wr
+    output reg sid_cs = 1'b1,
+    output reg sid_wr = 1'b1
 );
 
 assign sid_rst = rst_n;
@@ -113,10 +113,9 @@ end
 
 assign sid_d = (sid_wr == 1'b0)? sid_d_latch : 8'bzzzzzzzz;
 
-always @(negedge clkcpu)
-    n_iorqge <= (port_cf)? 1'b1 : 1'bz;
+assign d = (port_cf && n_iorq == 1'b0 && n_rd == 1'b0 && n_wr == 1'b1)? sid_d_latch : 8'bzzzzzzzz;
 
-assign d = (port_cf && n_iorq == 1'b0 && n_rd == 1'b0)? sid_d_latch : 8'bzzzzzzzz;
+assign n_iorqge = 1'bz;
 
 
 endmodule
