@@ -32,3 +32,4 @@ cpld_tb/*.mem
 *.*~
 *.sublime-*
 
+*rev.C*
