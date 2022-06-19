@@ -1,31 +1,33 @@
 ## Kicad
-*-lib-table
-*-cache
-*-rescue.lib
-*.sch-bak
-_autosave-*
-*.kicad_pcb-bak
-*.dcm
-pcb/**/*.xml
-pcb/**/out/
+/pcb/**/*-lib-table
+/pcb/**/*-cache
+/pcb/**/*-rescue.lib
+/pcb/**/*.sch-bak
+/pcb/**/_autosave-*
+/pcb/**/*.kicad_pcb-bak
+/pcb/**/*.dcm
+/pcb/**/*.xml
+/pcb/**/*.kicad_prl
+/pcb/**/*-backups/
+/pcb/**/out/
 
 ## Quartus
-db/
-incremental_db/
-output_files/
-output/
-*.dpf
-*.cdf
-*.qws
-*.srf
+/cpld/**/db/
+/cpld/**/incremental_db/
+/cpld/**/output_files/
+/cpld/**/output/
+/cpld/**/*.dpf
+/cpld/**/*.cdf
+/cpld/**/*.qws
+/cpld/**/*.srf
 
 ## Testbench
-cpld_tb/ivl_vhdl_work/
-cpld_tb/work/
-cpld_tb/*.gtkw
-cpld_tb/*.vcd
-cpld_tb/*.bin
-cpld_tb/*.mem
+/cpld_tb/ivl_vhdl_work/
+/cpld_tb/work/
+/cpld_tb/*.gtkw
+/cpld_tb/*.vcd
+/cpld_tb/*.bin
+/cpld_tb/*.mem
 
 ## Etc.
 *.bak
