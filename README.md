@@ -9,6 +9,8 @@ SID accessible via #xxCF port, where xx - SID's register number.
 
 You may connect your ZX Spectrum audio output to second 3.5mm jack and it will be mixed in sound card output signal.
 
+NOTE: +12V/+9V voltage is strictly required for SID, your ZX Spectrum or clone must provide it on the edge connector.
+
 ### Changelog & current status
 * Rev.A - initial release with SID, AY and Covox. [Errata](pcb/rev.A/ERRATA.txt).
 * Rev.B - abandoned. Files kept for historical reason.
@@ -16,5 +18,5 @@ You may connect your ZX Spectrum audio output to second 3.5mm jack and it will b
 * Rev.D - improved signal-noise ratio. Fixed read from SID chip.
 
 TODO:
-* Check with real SID chip;
+* Check with 8580 SID chip;
 * Further improve signal-noise ratio.
